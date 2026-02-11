@@ -1,0 +1,1080 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Networking 教學：WAN / LAN / VLAN + WiFi 6E/7/8</title>
+    <meta name="description" content="用簡單例子理解 WAN/LAN/VLAN，並比較 WiFi 6/6E/7/8 的差異。" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🌐</span>
+        <div>
+          <div class="title">Networking 教學站</div>
+          <div class="subtitle">WAN / LAN / VLAN · Router · WiFi 6 / 6E / 7 / 8</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="btn ghost" type="button" aria-label="切換深色模式">🌓</button>
+        <a class="btn" href="#wifi" title="跳到 WiFi 比較">WiFi 比較</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" aria-label="側邊導覽">
+        <nav>
+          <a class="nav-link" href="#intro">
+            <span class="nav-ico">🧭</span>
+            <span>快速導覽</span>
+          </a>
+        
+          <a class="nav-link" href="#wan">
+            <span class="nav-ico">🛰️</span>
+            <span>WAN 是什麼</span>
+          </a>
+        
+          <a class="nav-link" href="#lan">
+            <span class="nav-ico">🏠</span>
+            <span>LAN 是什麼</span>
+          </a>
+        
+          <a class="nav-link" href="#vlan">
+            <span class="nav-ico">🧩</span>
+            <span>VLAN 是什麼</span>
+          </a>
+        
+          <a class="nav-link" href="#compare">
+            <span class="nav-ico">📊</span>
+            <span>WAN / LAN / VLAN 比較</span>
+          </a>
+        
+          <a class="nav-link" href="#router-intro">
+            <span class="nav-ico">📡</span>
+            <span>Router 是什麼 & 為何要升級</span>
+          </a>
+          
+          <a class="nav-link" href="#wifi">
+            <span class="nav-ico">📶</span>
+            <span>WiFi 6 / 6E / 7 / 8 比較</span>
+          </a>
+        
+          <a class="nav-link" href="#router-upgrade">
+            <span class="nav-ico">🛠️</span>
+            <span>Router 升級與 Wi-Fi 世代</span>
+          </a>
+          
+          <a class="nav-link" href="#faq">
+            <span class="nav-ico">🧠</span>
+            <span>FAQ</span>
+          </a>
+        </nav>        
+
+        <div class="card tip">
+          <div class="card-title">小提示</div>
+          <p class="muted">
+            這站是純靜態（HTML/CSS/JS），適合 GitHub Pages / Netlify。
+            之後要加互動或套件，再升級到 Vite 也很順。
+          </p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <section id="intro" class="section">
+          <!-- ===== Hero（放在 #intro 最上面） ===== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-kicker">Networking · 概念速成</div>
+      <div class="hero-title">WAN → LAN → VLAN → Router → Wi-Fi 世代 → 升級策略</div>
+      <p class="hero-lead">
+        用最少的概念建立一套「看得懂、講得清、選得準」的網路升級思路。
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#wan">開始學</a>
+        <a class="btn ghost" href="#compare">直接看比較表</a>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <div class="hero-panel-title">你會得到什麼</div>
+      <ul class="hero-bullets">
+        <li>一條線串起 WAN / LAN / VLAN 的差異</li>
+        <li>理解 Trunk / 802.1Q Tag 何時需要</li>
+        <li>Router 與 Wi-Fi 世代的搭配邏輯</li>
+        <li>升級順序與 CP 值判斷框架</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<header class="intro-head">
+  <div class="intro-kicker">開始學習</div>
+  <h1 class="intro-title">快速導覽</h1>
+  <p class="intro-lead">
+    下面兩張卡就是你的「學習地圖」：左邊是學習重點，右邊是快速摘要與小測驗。
+    你可以照順序讀，也可以直接用按鈕跳到想看的章節。
+  </p>
+</header>
+
+<div class="intro-divider" aria-hidden="true"></div>          
+
+          <div class="grid">
+            <article class="card">
+              <h3>你會學到</h3>
+              <div class="learn-list">
+                <div class="learn-item">
+                  <span class="learn-dot">①</span>
+                  <div>
+                    <strong>WAN / LAN / VLAN 核心概念</strong>
+                    <p class="muted">定義、用途、常見設備與實際應用情境。</p>
+                  </div>
+                </div>
+              
+                <div class="learn-item">
+                  <span class="learn-dot">②</span>
+                  <div>
+                    <strong>VLAN 設計思維</strong>
+                    <p class="muted">為什麼需要 Trunk / Tag（802.1Q）及日常應用。</p>
+                  </div>
+                </div>
+              
+                <div class="learn-item">
+                  <span class="learn-dot">③</span>
+                  <div>
+                    <strong>Router 的角色與升級價值</strong>
+                    <p class="muted">在家庭與辦公網路中的位置，以及升級為何立刻有感。</p>
+                  </div>
+                </div>
+              
+                <div class="learn-item">
+                  <span class="learn-dot">④</span>
+                  <div>
+                    <strong>Wi-Fi 世代差異</strong>
+                    <p class="muted">Wi-Fi 6 / 6E / 7 / 8 的定位、差異與演進方向。</p>
+                  </div>
+                </div>
+              
+                <div class="learn-item">
+                  <span class="learn-dot">⑤</span>
+                  <div>
+                    <strong>Router × Wi-Fi 搭配判斷</strong>
+                    <p class="muted">不同世代搭配的體感差異與 CP 值分析。</p>
+                  </div>
+                </div>
+              
+                <div class="learn-item">
+                  <span class="learn-dot">⑥</span>
+                  <div>
+                    <strong>升級決策方法</strong>
+                    <p class="muted">依裝置、干擾環境與需求，選出最適合的升級組合。</p>
+                  </div>
+                </div>
+              </div>                           
+            </article>
+
+            <article class="card">
+              <h3>互動小工具</h3>
+              <p class="muted">點下面按鈕，快速看重點摘要：</p>
+            
+              <div class="pill-row pill-left">
+                <button class="pill" data-reveal="wanKey">WAN 重點</button>
+                <button class="pill" data-reveal="lanKey">LAN 重點</button>
+                <button class="pill" data-reveal="vlanKey">VLAN 重點</button>
+              </div>
+            
+              <div class="reveal" id="wanKey" hidden>
+                🌍 WAN：跨城市/國家連線，常見是 ISP、專線、SD-WAN。
+              </div>
+              <div class="reveal" id="lanKey" hidden>
+                🏠 LAN：你家或公司內網，交換器、AP、路由器常見。
+              </div>
+              <div class="reveal" id="vlanKey" hidden>
+                🧩 VLAN：在同一組交換器上切出多個邏輯網段，隔離與管理更好。
+              </div>
+            
+              <!-- 新增工具 1：快速跳轉（不需要改 JS） -->
+              <div class="tool-block">
+                <div class="tool-title">快速跳轉</div>
+                <div class="pill-row">
+                  <a class="pill" href="#router-intro">Router 角色</a>
+                  <a class="pill" href="#wifi">Wi-Fi 比較</a>
+                  <a class="pill" href="#router-upgrade">搭配表</a>
+                  <a class="pill" href="#faq">FAQ</a>
+                </div>
+              </div>
+            
+              <!-- 新增工具 2：30 秒自我檢測（用同一套 reveal 機制） -->
+              <div class="tool-block">
+                <div class="tool-title">30 秒自我檢測</div>
+                <p class="muted">點選題目看答案，快速確認概念有沒有吸收：</p>
+            
+                <div class="pill-row">
+                  <button class="pill" data-reveal="quiz1">Q1：WAN 跟 LAN 最大差別？</button>
+                  <button class="pill" data-reveal="quiz2">Q2：VLAN 在解決什麼？</button>
+                  <button class="pill" data-reveal="quiz3">Q3：升級順序怎麼最有感？</button>
+                </div>
+            
+                <div class="reveal" id="quiz1" hidden>
+                  範圍不同：WAN 連「遠端據點/外網」，LAN 是「同場域內網」。
+                </div>
+                <div class="reveal" id="quiz2" hidden>
+                  在同一個 LAN 裡做「邏輯切分」來隔離、管理、提升安全性。
+                </div>
+                <div class="reveal" id="quiz3" hidden>
+                  先升級 Router 解決塞車與不穩，再升級 Wi-Fi 世代解鎖更高速度。
+                </div>
+              </div>
+            </article>            
+          </div>
+        </section>
+
+        <section id="wan" class="section">
+          <h2><span class="mono-tag">#</span> WAN 是什麼</h2>
+          <p>
+            <strong>WAN（Wide Area Network）</strong>是「廣域網路」，把不同地點的網路連起來。
+            你可以把它想成「城市與城市之間的高速公路」。
+          </p>
+            <!-- WAN 示意圖 -->
+  <figure class="diagram">
+    <img
+      src="./images/wan_diagram.png"
+      alt="WAN 廣域網路示意圖：不同城市或據點透過路由器與 ISP 連線"
+      loading="lazy"
+    />
+    <figcaption class="muted">
+      WAN（廣域網路）：負責連接不同地點的網路，解決「跨城市 / 跨據點」的連線問題
+    </figcaption>
+  </figure>
+
+          <details class="details">
+            <summary>常見情境</summary>
+            <ul>
+              <li>分公司與總部互通（專線、VPN、SD-WAN）</li>
+              <li>家裡上網連到 ISP（光纖/有線/行動網路）</li>
+              <li>雲端服務連線（企業到雲的連線策略）</li>
+            </ul>
+          </details>
+
+          <details class="details">
+            <summary>WAN 不只是「速度」差異</summary>
+            <p>
+              很多人以為 WAN 的差別只在「100M / 500M / 1G」，
+              但實際使用體感常常取決於以下幾個因素：
+            </p>
+            <ul>
+              <li><strong>延遲（Latency）</strong>：影響視訊會議、雲端操作、遊戲即時性</li>
+              <li><strong>穩定度（Jitter / 封包遺失）</strong>：決定會不會忽快忽慢</li>
+              <li><strong>路由品質</strong>：跨國或跨雲服務時特別明顯</li>
+            </ul>
+          </details>
+
+          <details class="details">
+            <summary>不同 WAN 類型，差別在哪？</summary>
+            <ul>
+              <li><strong>一般家用寬頻</strong>：速度高、成本低，但尖峰時段容易波動</li>
+              <li><strong>企業專線</strong>：延遲穩定、SLA 保證，適合關鍵業務</li>
+              <li><strong>VPN / SD-WAN</strong>：在多據點或雲端環境提升可控性與彈性</li>
+            </ul>
+          </details>
+
+          <details class="details">
+            <summary>為什麼 WAN 問題常被誤以為是 LAN 問題？</summary>
+            <p>
+              使用者常說「公司網路慢」，但實際原因可能在 WAN 端，例如：
+            </p>
+            <ul>
+              <li>跨國連線延遲高</li>
+              <li>ISP 路由繞路或品質不佳</li>
+              <li>雲端服務節點距離遠</li>
+            </ul>
+            <p class="muted">
+              這也是為什麼在排查問題時，需要先分清楚是 WAN 還是 LAN 的瓶頸。
+            </p>
+          </details>
+
+          <details class="details">
+            <summary>常見設備/技術</summary>
+            <ul>
+              <li>路由器（Router）、防火牆（Firewall）</li>
+              <li>VPN、MPLS、SD-WAN</li>
+              <li>ISP 提供的 CPE / Modem/ONT</li>
+            </ul>
+          </details>
+        </section>
+
+        <section id="lan" class="section">
+          <h2><span class="mono-tag">#</span> LAN 是什麼</h2>
+          <p>
+            <strong>LAN（Local Area Network）</strong>是「區域網路」，通常是同一個物理場域內的網路（家、辦公室、校園一棟樓）。
+          </p>
+          <!-- LAN 示意圖 -->
+  <figure class="diagram">
+    <img
+      src="./images/lan_diagram.png"
+      alt="LAN 區域網路示意圖：家庭或辦公室內的電腦、交換器與無線基地台"
+      loading="lazy"
+    />
+    <figcaption class="muted">
+      LAN（區域網路）：負責同一個場域內的設備互通，解決「內部連線與效率」問題
+    </figcaption>
+  </figure>
+
+          <details class="details">
+            <summary>LAN 的目標</summary>
+            <ul>
+              <li>讓內部設備互通（電腦、印表機、NAS、伺服器）</li>
+              <li>提供 WiFi 覆蓋與有線接入</li>
+              <li>用交換器把多台設備接在一起</li>
+            </ul>
+          </details>
+
+          <details class="details">
+            <summary>LAN 不只是「接起來就好」</summary>
+            <p>
+              許多人以為 LAN 只是把設備插上交換器就完成了，
+              但實際上，LAN 的品質會直接影響整個網路體感。
+            </p>
+            <ul>
+              <li><strong>封包轉發效率</strong>：影響多人同時使用是否順暢</li>
+              <li><strong>廣播流量控制</strong>：設備一多就容易拖慢整網</li>
+              <li><strong>交換器效能</strong>：低階設備在高流量下容易成為瓶頸</li>
+            </ul>
+          </details>
+
+          <details class="details">
+            <summary>為什麼 LAN 常是「看不見的瓶頸」？</summary>
+            <p>
+              即使 WAN 頻寬很高，如果 LAN 設計不佳，使用者仍會覺得網路慢。
+            </p>
+            <ul>
+              <li>交換器無法同時處理大量連線</li>
+              <li>WiFi AP 接在錯誤的網段或頻寬受限</li>
+              <li>所有裝置混在同一個廣播域</li>
+            </ul>
+            <p class="muted">
+              這也是為什麼升級光纖後，體感不一定會跟著提升。
+            </p>
+          </details>
+
+          <details class="details">
+            <summary>LAN 和 VLAN 的關係是什麼？</summary>
+            <p>
+              LAN 是「實體網路」，VLAN 是在 LAN 上做的「邏輯切分」。
+            </p>
+            <ul>
+              <li><strong>LAN</strong>：線路、交換器、AP 組成的實體環境</li>
+              <li><strong>VLAN</strong>：在同一個 LAN 上切出多個獨立網段</li>
+              <li><strong>目的</strong>：降低干擾、提升安全性與管理效率</li>
+            </ul>
+            <p class="muted">
+              沒有良好的 LAN 基礎，VLAN 也無法真正發揮效果。
+            </p>
+          </details>
+
+          <details class="details">
+            <summary>什麼情況下該重新檢視 LAN 設計？</summary>
+            <ul>
+              <li>設備數量明顯變多（IoT、監視器、AP）</li>
+              <li>多人同時使用時容易互卡</li>
+              <li>WiFi 訊號滿格，但速度與穩定度不佳</li>
+              <li>新增 VLAN 後管理變得複雜</li>
+            </ul>
+          </details>
+
+          <details class="details">
+            <summary>常見設備</summary>
+            <ul>
+              <li>交換器（Switch）：負責二層轉發</li>
+              <li>無線基地台（AP）：提供 WiFi</li>
+              <li>路由器：LAN 與 WAN 之間的「關卡」</li>
+            </ul>
+          </details>
+          <p class="muted">
+            當 LAN 中的設備越來越多、用途越來越複雜，
+            單純提升交換器或頻寬已經不足以解決問題，
+            這時就需要一種方式在「不重新拉線」的情況下，
+            對網路進行邏輯切分與隔離。
+          </p>
+        </section>
+
+        <section id="vlan" class="section">
+          <h2><span class="mono-tag">#</span> VLAN 是什麼</h2>
+          <p>
+            <strong>VLAN（Virtual LAN）</strong> 是「虛擬區域網路」，它可以在同一套交換器/網路布線上，
+            用邏輯方式切出多個網段，達到<strong>隔離、管理與安全</strong>的目的。這樣，每個 VLAN 就像是一個獨立的小網路，
+            它們之間互不干擾，能更有效地進行管理和資源分配。
+          </p>
+
+            <!-- VLAN 示意圖 -->
+  <figure class="diagram">
+    <img
+      src="./images/vlan_diagram.png"
+      alt="VLAN 示意圖：在同一個 LAN 中，透過 VLAN 將不同部門與裝置邏輯隔離"
+      loading="lazy"
+    />
+    <figcaption class="muted">
+      VLAN（虛擬區域網路）：在同一個 LAN 上做邏輯切分，解決「隔離、管理與安全」問題
+    </figcaption>
+  </figure>
+
+          <!-- 為什麼要 VLAN -->
+          <details class="details">
+            <summary>為什麼要 VLAN？</summary>
+            <ul>
+              <li>訪客 WiFi 與公司內網隔離</li>
+              <li>IoT 設備（監視器、門禁）和員工電腦分開</li>
+              <li>不同部門（財務/研發/客服）各自一個網段</li>
+            </ul>
+          </details>
+        
+          <!-- VLAN 的挑戰：多交換機間的流量處理 -->
+          <details class="details">
+            <summary>VLAN 的挑戰：多交換機間的流量處理</summary>
+            <p class="muted">
+              當需要在多個交換機或設備之間傳遞 VLAN 的流量時，如何保持這些 VLAN 之間的邏輯隔離和管理就成為一個挑戰。
+              這時候，『Trunk 端口』 和 『802.1Q 標籤（Tagging）』 技術便發揮了作用。
+            </p>
+            <!-- 插入圖片，顯示在 VLAN 的挑戰內 -->
+            <img src="images/vlan_challenge_infographic.png" alt="VLAN Challenge Infographic" style="max-width: 100%; height: auto; margin-top: 20px;">
+          </details>
+        
+          <!-- 介紹 Trunk 和 Tag -->
+          <details class="details">
+            <summary>Trunk 和 Tag：多交換機間的解決方案</summary>
+            <p>
+              在交換機之間傳送多個 VLAN 的流量時，『Trunk 端口』 用來讓單一物理鏈路支持多個 VLAN，
+              並且通過 『802.1Q 標籤（Tagging）』 將每個數據包與其對應的 VLAN ID 相標識。這樣，即使多個 VLAN 的流量通過同一條物理鏈路，
+              每個 VLAN 的數據依然能夠保持獨立且被正確地路由到相應的目標。
+            </p>
+            <ul>
+              <li><strong>Access Port</strong>：端口只屬於某一個 VLAN（例如，終端設備直接連接的端口）</li>
+              <li><strong>Trunk Port</strong>：一條鏈路承載多個 VLAN 的流量（交換機之間、交換機與 AP 之間的鏈路）</li>
+              <li><strong>Tag（802.1Q）</strong>：在數據包中插入 VLAN 標籤，告訴接收端該數據包屬於哪個 VLAN</li>
+            </ul>
+          </details>
+        
+          <!-- 使用圖表或圖示來直觀說明 -->
+          <details class="details">
+            <summary>如何工作？</summary>
+            <p class="muted">
+              想像一下，你的辦公室裡有多個部門，每個部門都有自己的 VLAN，
+              而這些部門的數據需要通過公司內部的交換機傳輸。Trunk 端口和 Tag 標籤會確保數據包能夠在多個交換機之間流動，
+              同時保持每個部門的數據隔離。
+            </p>
+            <img src="images/VLAN_Segmentation_Office_Setup.png" alt="VLAN Segmentation Office Setup" style="max-width: 100%; height: auto;">
+            <p class="muted">
+              三個不同部門的 VLAN（Finance、IoT、Guests）：
+            </p>
+            <ul class="muted">
+              <li><strong>Finance VLAN 10：</strong>左側是財務部門的員工，連接到管理型交換機，標示為 VLAN 10。</li>
+              <li><strong>IoT VLAN 20：</strong>中間顯示 IoT 設備（如監視器、門禁設備），這些設備屬於 VLAN 20。</li>
+              <li><strong>Guests VLAN 30：</strong>右側是訪客區域，顯示兩台筆記型電腦，這些設備屬於 VLAN 30。</li>
+            </ul>
+            <p class="muted">
+              <strong>Trunk Port 和 Tag 標籤的應用：</strong><br>
+              圖中的 Trunk Port 用於多個 VLAN 之間的數據傳輸，將不同 VLAN 的流量通過單一物理鏈路進行傳輸。每個數據包會附帶 802.1Q 標籤（Tagging），這個標籤將每個數據包與其對應的 VLAN ID （如 VLAN 10, VLAN 20, VLAN 30）關聯起來，確保數據包在傳輸過程中不會混淆，並保持各自的獨立性和隔離。
+            </p>
+            <p class="muted">
+              <strong>VLAN 標籤（Tag）與 Trunk 端口的角色：</strong><br>
+              Tag VLAN 10：藍色線纜傳輸財務部門的數據。<br>
+              Tag VLAN 20：黃色線纜傳輸 IoT 設備數據。<br>
+              Tag VLAN 30：綠色線纜傳輸訪客數據。<br>
+              這些流量都通過 Trunk Port 進行交換機之間的連接，並確保每個部門的數據都保持獨立，並正確地被轉發到相應的目的地。
+            </p>
+          </details>
+        </section>                                        
+
+        <section id="compare" class="section">
+          <h2><span class="mono-tag">#</span> WAN / LAN / VLAN 比較</h2>
+          <p class="lead">
+            一句話總結：<strong>WAN 解決跨地點連線，LAN 解決場域內互通，VLAN 則在 LAN 上做邏輯隔離與管理。</strong>
+          </p>          
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>項目</th>
+                  <th>WAN</th>
+                  <th>LAN</th>
+                  <th>VLAN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>範圍</td>
+                  <td>跨城市/國家</td>
+                  <td>同場域（家/公司）</td>
+                  <td>同一個 LAN 內的邏輯切分</td>
+                </tr>
+                <tr>
+                  <td>目的</td>
+                  <td>據點互聯/上網</td>
+                  <td>內部互通</td>
+                  <td>隔離/管理/安全</td>
+                </tr>
+                <tr>
+                  <td>常見設備</td>
+                  <td>Router/Firewall/SD-WAN</td>
+                  <td>Switch/AP/Router</td>
+                  <td>Managed Switch/AP（支援 VLAN）</td>
+                </tr>
+                <tr>
+                  <td>你最常遇到</td>
+                  <td>ISP、VPN、雲連線</td>
+                  <td>辦公室網路</td>
+                  <td>訪客網路、部門隔離</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="router-intro" class="section">
+          <header class="section-head">
+            <h2><span class="mono-tag">#</span> 什麼是 Router（路由器）？</h2>
+            <p class="lead">
+              Router（路由器）是家中或辦公室網路的核心，
+              負責把來自網際網路的連線，分配給手機、電腦、電視與各種智慧裝置。
+            </p>
+          </header>
+        
+          <div class="card">
+            <p>
+              簡單來說，<strong>Router 就是網路的交通指揮中心</strong>。
+              所有裝置的資料流量，幾乎都會先經過 Router，再被送往正確的目的地。
+            </p>
+        
+            <p>
+              很多人以為網路慢是「電信速度不夠」，
+              但實際上，<strong>老舊的 Router 往往才是真正的瓶頸</strong>。
+              即使升級了高速光纖，如果 Router 跟不上，使用體感仍然有限。
+            </p>
+          </div>
+        
+          <div class="card">
+            <h3>為什麼要升級 Router？</h3>
+        
+            <ul class="bullets">
+              <li>
+                <strong>🚦 多裝置同時使用更穩定</strong><br>
+                新一代 Router 更擅長同時處理多支手機、電腦與智慧家電，
+                不容易出現「大家一起用就變慢」的情況。
+              </li>
+        
+              <li>
+                <strong>🚀 實際速度更接近光纖上限</strong><br>
+                舊 Router 常無法跑滿 500M / 1G 網速，
+                升級後才能真正發揮電信方案的效能。
+              </li>
+        
+              <li>
+                <strong>🎮 延遲更低，重要流量優先</strong><br>
+                新 Router 的流量管理更聰明，
+                遊戲、視訊會議不容易被下載或更新影響。
+              </li>
+        
+              <li>
+                <strong>🔐 資安與管理能力提升</strong><br>
+                支援較新的加密方式、訪客網路與裝置隔離，
+                對智慧家庭與遠端工作更安全。
+              </li>
+        
+              <li>
+                <strong>📡 覆蓋範圍與穩定度改善</strong><br>
+                天線與射頻設計進步，
+                跨房間使用更穩，網路死角減少。
+              </li>
+            </ul>
+          </div>
+        
+          <div class="quote">
+            <p>
+              <strong>重點整理：</strong>
+              升級 Router 不只是追求「速度數字」，而是讓
+              <em>所有裝置、在任何時候</em> 都能穩定上網。
+            </p>
+          </div>
+        </section>        
+
+        <div class="cta-group">
+          <p class="cta-lead">
+            已經了解 Router 的角色後，接下來可以直接跳到 Wi-Fi 世代簡介：
+          </p>
+        
+          <div class="cta-actions">
+            <a class="btn primary" href="#wifi6">Wi-Fi 6（主流）</a>
+            <a class="btn ghost" href="#wifi6e">Wi-Fi 6E（低干擾）</a>
+            <a class="btn ghost" href="#wifi7">Wi-Fi 7（高效能）</a>
+            <a class="btn ghost future" href="#wifi8">Wi-Fi 8（未來）</a>
+          </div>
+        </div>        
+
+        <section id="wifi" class="section">
+          <h2><span class="mono-tag">#</span> WiFi 6 / 6E / 7 / 8 比較</h2>
+          <p class="muted">點選指標後，四張卡會更新分數與重點。</p>
+        
+          <div class="card">
+            <h3>各 Wi-Fi 世代適合誰？</h3>
+            <ul class="bullets">
+              <li>
+                <strong>Wi-Fi 6｜主流穩定型（家庭 / 一般辦公）</strong><br>
+                適合多數家庭與一般辦公環境。多裝置同時上網、視訊會議與日常串流會更穩、更順。
+              </li>
+              <li>
+                <strong>Wi-Fi 6E｜低干擾高速型（6GHz / 高密度環境）</strong><br>
+                支援 6GHz 頻段，適合公寓或辦公室干擾較多的環境；短距離可提供更乾淨、更低延遲的連線。
+              </li>
+              <li>
+                <strong>Wi-Fi 7｜高效能進階型（低延遲 / 高吞吐）</strong><br>
+                適合遊戲、創作與即時互動需求高的使用者，對低延遲與高吞吐的體感更明顯。
+              </li>
+              <li>
+                <strong>Wi-Fi 8｜未來應用導向（可靠度 / 協同運作）</strong><br>
+                仍在標準演進中，重點更偏向極低延遲與高可靠度，面向 AR/VR、雲端運算與大規模裝置協同等場景。
+              </li>
+            </ul>
+          </div>          
+
+          <div class="pill-row wifi-controls" role="group" aria-label="WiFi 比較指標">
+            <button class="pill wifi-metric is-active" data-metric="throughput" type="button">⚡ 吞吐</button>
+            <button class="pill wifi-metric" data-metric="latency" type="button">⏱️ 延遲</button>
+            <button class="pill wifi-metric" data-metric="reliability" type="button">🛡️ 穩定</button>
+            <button class="pill wifi-metric" data-metric="interference" type="button">🧠 干擾</button>
+          </div>
+        
+          <div class="wifi-cards">
+            <article class="wifi-card" data-tech="6" id="wifi6">
+              <div class="wifi-card-head">
+                <div>
+                  <div class="wifi-badge">WiFi</div>
+                  <h3 class="wifi-name">6</h3>
+                  <div class="wifi-sub">主流穩定｜家庭 / 一般辦公</div>
+                </div>
+                <div class="wifi-score">
+                  <div class="wifi-score-num" id="score6">--</div>
+                  <div class="wifi-score-label muted">Score</div>
+                </div>
+              </div>
+            
+              <div class="wifi-meter">
+                <div class="wifi-meter-bar" id="bar6" style="width: 0%"></div>
+              </div>
+            
+              <ul class="wifi-points" id="points6"></ul>
+            </article>
+            
+            <article class="wifi-card" data-tech="6e" id="wifi6e">
+              <div class="wifi-card-head">
+                <div>
+                  <div class="wifi-badge">WiFi</div>
+                  <h3 class="wifi-name">6E</h3>
+                  <div class="wifi-sub">低干擾高速｜6GHz / 高密度</div>
+                </div>
+                <div class="wifi-score">
+                  <div class="wifi-score-num" id="score6e">--</div>
+                  <div class="wifi-score-label muted">Score</div>
+                </div>
+              </div>
+        
+              <div class="wifi-meter">
+                <div class="wifi-meter-bar" id="bar6e" style="width: 0%"></div>
+              </div>
+        
+              <ul class="wifi-points" id="points6e"></ul>
+            </article>
+        
+            <article class="wifi-card" data-tech="7" id="wifi7">
+              <div class="wifi-card-head">
+                <div>
+                  <div class="wifi-badge">WiFi</div>
+                  <h3 class="wifi-name">7</h3>
+                  <div class="wifi-sub">高效能進階｜低延遲 / 高吞吐</div>
+                </div>
+                <div class="wifi-score">
+                  <div class="wifi-score-num" id="score7">--</div>
+                  <div class="wifi-score-label muted">Score</div>
+                </div>
+              </div>
+        
+              <div class="wifi-meter">
+                <div class="wifi-meter-bar" id="bar7" style="width: 0%"></div>
+              </div>
+        
+              <ul class="wifi-points" id="points7"></ul>
+            </article>
+        
+            <article class="wifi-card" data-tech="8" id="wifi8">
+              <div class="wifi-card-head">
+                <div>
+                  <div class="wifi-badge">WiFi</div>
+                  <h3 class="wifi-name">8</h3>
+                  <div class="wifi-sub">未來應用｜可靠度 / 協同運作</div>
+                </div>
+                <div class="wifi-score">
+                  <div class="wifi-score-num" id="score8">--</div>
+                  <div class="wifi-score-label muted">Score</div>
+                </div>
+              </div>
+        
+              <div class="wifi-meter">
+                <div class="wifi-meter-bar" id="bar8" style="width: 0%"></div>
+              </div>
+        
+              <ul class="wifi-points" id="points8"></ul>
+            </article>
+          </div>
+        
+          <div class="wifi-summary" id="wifiSummary" aria-live="polite">
+            <div class="wifi-summary-title">結論</div>
+            <div class="wifi-summary-text muted">選擇一個指標開始比較。</div>
+          </div>
+        </section>        
+
+        <section id="router-upgrade" class="section">
+          <header class="section-head">
+            <h2><span class="mono-tag">#</span> Router 升級與 Wi-Fi 世代搭配</h2>
+            <p class="lead">
+              Router 決定「網路怎麼分」，裝置的 Wi-Fi 世代決定「能跑多快」。
+              想升級升得有感，先看搭配，再看共通好處。
+            </p>
+          </header>
+        
+          <!-- 搭配表 -->
+          <div class="card">
+            <h3>Router × Wi-Fi 世代比較搭配表</h3>
+            <p class="muted">⭐ 越多 = 體感越強（速度＋穩定＋延遲）</p>
+        
+            <div class="table-wrap" role="region" aria-label="Router 與 Wi-Fi 世代搭配比較表" tabindex="0">
+              <table class="compare-table">
+                <thead>
+                  <tr>
+                    <th>裝置 Wi-Fi 世代 \ Router 世代</th>
+                    <th>Wi-Fi 5 Router</th>
+                    <th>Wi-Fi 6 Router</th>
+                    <th>Wi-Fi 6E Router</th>
+                    <th>Wi-Fi 7 Router</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Wi-Fi 5 裝置</td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>能用，多人易塞車</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>穩定度提升，多人不卡</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>同頻干擾↓</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>系統穩定</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Wi-Fi 6 裝置</td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>速度受限</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>速度+穩定，最佳CP</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>6GHz全開</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>高速穩定</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Wi-Fi 6E 裝置</td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>發揮受限</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>穩定度提升</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>6GHz全開</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>有效發揮</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Wi-Fi 7 裝置</td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>基本連線</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>潛力受限</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>良好表現</p>
+                    </td>
+                    <td>
+                      <div class="stars">
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                        <span class="star">⭐</span>
+                      </div>
+                      <p>極致表現</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>              
+            </div>
+          </div>
+        
+          <!-- 共通好處 -->
+          <div class="grid-2">
+        
+            <!-- 搭配情境解析 -->
+            <article class="card">
+              <h3>搭配情境解析</h3>
+        
+              <div class="stack">
+                <div class="pill">
+                  <strong>🟦 舊裝置 × 新 Router</strong>
+                  <p class="muted">重點：穩定度、資安、多裝置能力（速度提升有限但更不會忽快忽慢）。</p>
+                </div>
+        
+                <div class="pill">
+                  <strong>🟩 Wi-Fi 6 裝置 × Wi-Fi 6 Router（CP 最高）</strong>
+                  <p class="muted">重點：速度＋穩定全面升級，多數家庭與辦公最剛好。</p>
+                </div>
+        
+                <div class="pill">
+                  <strong>🟨 Wi-Fi 6E 裝置 × Wi-Fi 6E Router</strong>
+                  <p class="muted">重點：6GHz 干擾少，近距離低延遲很有感，但穿牆較弱。</p>
+                </div>
+        
+                <div class="pill">
+                  <strong>🟥 Wi-Fi 7 裝置 × Wi-Fi 7 Router</strong>
+                  <p class="muted">重點：效能、延遲、未來性拉滿，適合一次買好用 5 年。</p>
+                </div>
+              </div>
+        
+              <div class="quote">
+                <p><strong>一句話記憶：</strong>升級 Router 先解決「塞車與不穩」，Wi-Fi 世代升級才是把「最高速度解鎖」。</p>
+              </div>
+            </article>
+          </div>
+        
+          <!-- 懶人決策 -->
+          <div class="card">
+            <h3>🎯 懶人升級建議</h3>
+            <div class="grid-3">
+              <div class="mini">
+                <h4>路由器 4–5 年以上</h4>
+                <p class="muted">直接升到 Wi-Fi 6，穩定度立刻有感。</p>
+              </div>
+              <div class="mini">
+                <h4>干擾嚴重＋新裝置</h4>
+                <p class="muted">考慮 Wi-Fi 6E，用 6GHz 避開鄰居擁塞。</p>
+              </div>
+              <div class="mini">
+                <h4>旗艦設備＋長期使用</h4>
+                <p class="muted">Wi-Fi 7 一次到位，低延遲與未來性最佳。</p>
+              </div>
+            </div>
+          </div>
+        </section>        
+
+        <section id="faq" class="section">
+          <h2><span class="mono-tag">#</span> 常見問題</h2>
+        
+          <h3>一、網路概念（WAN / LAN / VLAN）</h3>
+        
+          <details class="details">
+            <summary>VLAN 之間能互通嗎？</summary>
+            <p>
+              預設不會互通（隔離），若要互通通常需要三層設備做路由（例如 L3 switch 或 router），
+              同時搭配 ACL / Firewall 控制可通哪些服務。
+            </p>
+          </details>
+        
+          <details class="details">
+            <summary>我家需要 VLAN 嗎？</summary>
+            <p>
+              如果你有 IoT（攝影機、智慧家電）、訪客需求或想把工作設備隔離，VLAN 很實用；
+              如果只是一般上網，未必需要。
+            </p>
+          </details>
+        
+          <h3>二、Router 與升級判斷</h3>
+        
+          <details class="details">
+            <summary>Router 一定要跟 Wi-Fi 世代一起升級嗎？</summary>
+            <p>
+              不一定要同時升級，但要知道：<strong>Router 會決定整體網路的上限與穩定度</strong>。
+              即使你的手機或筆電支援 Wi-Fi 6 / 7，如果 Router 的效能、頻段或功能跟不上，
+              速度與延遲仍可能無法完全發揮。常見做法是：先升級 Router 解決「塞車與不穩」，再視裝置世代逐步跟上。
+            </p>
+          </details>
+        
+          <details class="details">
+            <summary>什麼情況下「升級 Router」會比「換裝置」更有感？</summary>
+            <p>
+              你可以用這些現象判斷：
+              <ul>
+                <li>多人同時上網就互卡（手機、電視、筆電一起用）</li>
+                <li>遊戲或視訊會議延遲忽高忽低</li>
+                <li>ISP 已升級 500M / 1G，但實際體感沒變</li>
+                <li>家裡 IoT 裝置變多後更容易不穩</li>
+              </ul>
+              若出現其中兩項以上，通常先升級 Router（或佈建 Mesh）會更有感。
+            </p>
+          </details>
+        
+          <details class="details">
+            <summary>升級 Router 後，我需要重設所有裝置嗎？</summary>
+            <p>
+              多數情況不需要。你可以把新 Router 的 Wi-Fi 名稱（SSID）與密碼設成與舊的一樣，
+              手機與筆電通常會自動重新連上。
+              若你從 Wi-Fi 5 升級到 Wi-Fi 6 / 6E / 7，建議最後做一次簡單測試，
+              確認速度與延遲的體感是否符合預期。
+            </p>
+          </details>
+        
+          <details class="details">
+            <summary>Mesh Router 跟 Wi-Fi 世代，哪個比較重要？</summary>
+            <p>
+              兩者解決的是不同問題：<strong>Mesh 解決覆蓋</strong>（死角、跨房訊號弱），
+              <strong>Wi-Fi 世代解決效率與延遲</strong>（多人同時使用不卡、體感更順）。
+              如果你家有明顯死角，先補覆蓋通常更有感；覆蓋沒問題但還是卡，再考慮升級 Wi-Fi 世代。
+            </p>
+          </details>
+        
+          <h3>三、Wi-Fi 6 / 6E / 7 / 8 選擇</h3>
+        
+          <details class="details">
+            <summary>Wi-Fi 6 與 Wi-Fi 6E 差在哪？我需要 6E 嗎？</summary>
+            <p>
+              最大差異是：<strong>Wi-Fi 6E 新增了 6GHz 頻段</strong>。
+              6GHz 的干擾通常較少，適合公寓或辦公室等高密度環境，
+              在穩定度與延遲體感上會更好。
+              若你的環境干擾不大、裝置多數仍是 Wi-Fi 6，先升級 Wi-Fi 6 Router 也很夠用。
+            </p>
+          </details>
+        
+          <details class="details">
+            <summary>裝置不支援 Wi-Fi 7，我換 Wi-Fi 7 Router 有用嗎？</summary>
+            <p>
+              有用，但屬於「整體體驗提升」，而不是單一裝置速度直接翻倍。
+              舊裝置仍會以原本的 Wi-Fi 規格連線，
+              但新 Router 在多裝置調度、延遲控制與資安支援上通常更好，
+              對全家或辦公室一起使用時的穩定度幫助很大。
+            </p>
+          </details>
+        
+          <details class="details">
+            <summary>Wi-Fi 8 現在需要急著升級嗎？</summary>
+            <p>
+              一般家用不需要急。
+              你可以把 Wi-Fi 8 視為「往更低延遲與更高可靠度」的演進方向，
+              目前更偏向理解趨勢。
+              以現階段來說，把 Wi-Fi 6 或 6E 佈建好，已能滿足大多數家庭與辦公需求。
+            </p>
+          </details>
+        </section>                        
+
+        <footer class="footer">
+          <p class="muted">
+            © <span id="year"></span> Networking 教學站 · Built with HTML/CSS/JS
+          </p>
+          <button id="backToTop" class="btn ghost" type="button">⬆️ 回頂部</button>
+        </footer>
+      </main>
+    </div>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>

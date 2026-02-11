@@ -1,0 +1,1573 @@
+:root {
+    --bg0: #070913;
+    --bg1: #0b1026;
+    --panel: rgba(16, 18, 32, 0.62);
+    --panel2: rgba(16, 18, 32, 0.78);
+    --text: #eaf0ff;
+    --muted: rgba(234, 240, 255, 0.70);
+  
+    --border: rgba(160, 180, 255, 0.18);
+    --border2: rgba(160, 180, 255, 0.26);
+  
+    --accent: #7aa2ff;
+    --accent2: #00e5ff;
+    --accent3: #a8ff60;
+  
+    --radius: 18px;
+    --shadow: 0 18px 50px rgba(0, 0, 0, 0.38);
+    --shadow2: 0 10px 30px rgba(0, 0, 0, 0.26);
+  
+    --sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+  
+  [data-theme="light"] {
+    --bg0: #f5f7ff;
+    --bg1: #eef2ff;
+    --panel: rgba(255, 255, 255, 0.74);
+    --panel2: rgba(255, 255, 255, 0.88);
+    --text: #0f1322;
+    --muted: rgba(15, 19, 34, 0.62);
+  
+    --border: rgba(20, 40, 120, 0.10);
+    --border2: rgba(20, 40, 120, 0.16);
+  
+    --accent: #2b5cff;
+    --accent2: #0077ff;
+    --accent3: #1db954;
+  
+    --shadow: 0 18px 50px rgba(15, 20, 60, 0.12);
+    --shadow2: 0 10px 30px rgba(15, 20, 60, 0.10);
+  }
+  
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    color: var(--text);
+    font-family: var(--sans);
+
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  
+    /* 科技感：深色漸層 + 細格線 */
+    background:
+      radial-gradient(1000px 600px at 20% 10%, rgba(0, 229, 255, 0.14), transparent 55%),
+      radial-gradient(900px 700px at 80% 20%, rgba(122, 162, 255, 0.16), transparent 55%),
+      radial-gradient(700px 700px at 60% 90%, rgba(168, 255, 96, 0.10), transparent 60%),
+      linear-gradient(180deg, var(--bg0), var(--bg1));
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* 背景格線 */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(to right, rgba(160,180,255,0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(160,180,255,0.07) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(circle at 50% 15%, rgba(0,0,0,0.9), transparent 60%);
+    opacity: 0.9;
+    z-index: 0;
+  }
+  
+  /* 微光噪點，讓面板更像玻璃 */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.20'/%3E%3C/svg%3E");
+    opacity: 0.06;
+    z-index: 0;
+  }
+  
+  a { color: inherit; text-decoration: none; }
+  p { line-height: 1.75; margin: 10px 0; }
+  .muted { color: var(--muted); }
+  strong { color: color-mix(in oklab, var(--text) 82%, var(--accent2)); }
+  
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+  
+    background: color-mix(in oklab, var(--panel2) 80%, transparent);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(14px);
+  }
+  
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .logo {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    border: 1px solid var(--border2);
+    background: radial-gradient(circle at 30% 20%, rgba(0,229,255,0.25), transparent 55%),
+                radial-gradient(circle at 70% 40%, rgba(122,162,255,0.25), transparent 60%),
+                rgba(255,255,255,0.04);
+    box-shadow: var(--shadow2);
+  }
+  .title { font-weight: 700; letter-spacing: 0.2px; }
+  .subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  
+  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+  
+  .layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1220px;
+    margin: 0 auto;
+  }
+  
+  .sidebar {
+    position: sticky;
+    top: 76px;
+    align-self: start;
+    height: calc(100vh - 92px);
+    overflow: auto;
+    padding: 14px;
+  
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px);
+  }
+  
+  .sidebar nav {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    color: var(--muted);
+    border: 1px solid transparent;
+    transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  }
+  .nav-link:hover {
+    color: var(--text);
+    border-color: var(--border2);
+    background: rgba(255,255,255,0.04);
+    transform: translateY(-1px);
+  }
+  
+  .content { padding: 4px; }
+  
+  .section {
+    padding: 18px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px);
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 面板上方的霓虹掃光線 */
+  .section::before,
+  .sidebar::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background:
+      radial-gradient(650px 140px at 20% 0%, rgba(0,229,255,0.16), transparent 55%),
+      radial-gradient(650px 140px at 80% 0%, rgba(122,162,255,0.16), transparent 55%);
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  
+  h1, h2, h3 { margin: 0 0 10px 0; }
+  h1 {
+    font-size: 28px;
+    letter-spacing: 0.2px;
+    font-weight: 750;
+  }
+  h2 { font-size: 20px; font-weight: 650; }
+  h3 { font-size: 16px; font-weight: 650; color: color-mix(in oklab, var(--text) 85%, var(--accent)); }
+  
+/* ===== Typography Scale (統一字級/副文字/字距) ===== */
+:root{
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-xs: 13px;
+
+  --ls-tight: -0.01em;
+  --ls-normal: 0em;
+}
+
+/* 內文固定 16 */
+body { font-size: var(--fs-body); }
+
+/* 段落就是 16 */
+p{
+  font-size: var(--fs-body);
+  line-height: 1.75;
+}
+
+/* 副文字 14（全站一致） */
+.muted{
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+/* 更小的註解 / label（你需要時再用 class） */
+.small, .caption, .hint{
+  font-size: var(--fs-xs);
+  line-height: 1.55;
+}
+
+/* 標題字距收斂（把你原本 0.2px / 0.3px 壓回來） */
+h1, h2{
+  letter-spacing: var(--ls-tight);
+}
+h3{
+  letter-spacing: var(--ls-normal);
+}
+
+/* 你目前有 12px 的地方，統一成 13px 比較像文件 */
+.subtitle,
+.wifi-score-label,
+.btn.future::after{
+  font-size: var(--fs-xs);
+}
+
+/* nav 跟按鈕統一 14 */
+.nav-link,
+.btn,
+.pill{
+  font-size: var(--fs-small);
+}
+
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  
+  .card {
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.035);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow2);
+  }
+  
+  .card-title { font-weight: 750; margin-bottom: 8px; }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid color-mix(in oklab, var(--border2) 70%, var(--accent));
+    background:
+      radial-gradient(circle at 25% 15%, rgba(0,229,255,0.25), transparent 50%),
+      radial-gradient(circle at 70% 30%, rgba(122,162,255,0.25), transparent 58%),
+      rgba(122,162,255,0.22);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 650;
+    transition: transform 120ms ease, filter 120ms ease;
+  }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+  .btn:active { transform: translateY(0px); }
+  
+  .btn.ghost {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+  }
+  
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 120ms ease, transform 120ms ease;
+  }
+  .pill:hover {
+    border-color: color-mix(in oklab, var(--border2) 60%, var(--accent2));
+    transform: translateY(-1px);
+  }
+  
+  .reveal {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+  
+  .details {
+    margin-top: 10px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .details > summary {
+    cursor: pointer;
+    font-weight: 750;
+    font-family: var(--mono);
+    letter-spacing: 0.2px;
+  }
+  .details > summary + * {
+    margin-top: 14px;
+  }
+
+  .callout {
+    margin-top: 12px;
+    border-radius: var(--radius);
+    border: 1px solid color-mix(in oklab, var(--border2) 60%, var(--accent2));
+    padding: 12px 14px;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(0,229,255,0.16), transparent 60%),
+      rgba(255,255,255,0.03);
+  }
+  .callout-title {
+    font-weight: 800;
+    margin-bottom: 6px;
+    font-family: var(--mono);
+    letter-spacing: 0.2px;
+  }
+  
+  .table-wrap {
+    overflow: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  table { width: 100%; border-collapse: collapse; min-width: 720px; }
+  th, td { padding: 12px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+  thead th {
+    position: sticky;
+    top: 0;
+    background: color-mix(in oklab, var(--panel2) 85%, transparent);
+    backdrop-filter: blur(10px);
+    font-family: var(--mono);
+    letter-spacing: 0.2px;
+  }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 4px 4px;
+  }
+  
+  /* 滑動更順 */
+  html { scroll-behavior: smooth; }
+  
+  /* Scrollbar（可選，質感加分） */
+  .sidebar::-webkit-scrollbar { width: 10px; }
+  .sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.10);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); }
+  
+  /* RWD */
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: relative; top: 0; height: auto; }
+    .grid { grid-template-columns: 1fr; }
+    table { min-width: 640px; }
+  }
+  .mono-tag{
+    font-family: var(--mono);
+    color: color-mix(in oklab, var(--accent2) 70%, var(--text));
+    margin-right: 8px;
+  }
+  /* WiFi interactive highlight */
+.wifi-controls { margin-top: 8px; }
+
+.wifi-metric.is-active {
+  border-color: color-mix(in oklab, var(--border2) 60%, var(--accent2));
+  box-shadow: 0 0 0 3px rgba(0,229,255,0.08);
+}
+
+.wifi-table tbody tr.row-focus {
+  background: radial-gradient(800px 220px at 10% 50%, rgba(0,229,255,0.14), transparent 60%),
+              rgba(255,255,255,0.03);
+}
+
+.wifi-table tbody tr.row-dim {
+  opacity: 0.55;
+}
+
+.wifi-summary {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+}
+
+.wifi-summary-title {
+  font-weight: 800;
+  font-family: var(--mono);
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+  color: color-mix(in oklab, var(--text) 80%, var(--accent2));
+}
+/* WiFi cards */
+.wifi-controls { margin-top: 8px; }
+
+.wifi-metric.is-active {
+  border-color: color-mix(in oklab, var(--border2) 60%, var(--accent2));
+  box-shadow: 0 0 0 3px rgba(0,229,255,0.08);
+}
+
+.wifi-cards {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}  
+
+.wifi-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,0.035);
+  box-shadow: var(--shadow2);
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wifi-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background:
+    radial-gradient(600px 140px at 20% 0%, rgba(0,229,255,0.16), transparent 55%),
+    radial-gradient(600px 140px at 80% 0%, rgba(122,162,255,0.16), transparent 55%);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.wifi-card-head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.wifi-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  font-family: var(--mono);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  font-size: 12px;
+}
+
+.wifi-name {
+  margin: 6px 0 0 0;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.wifi-score {
+  position: relative;
+  text-align: right;
+}
+.wifi-score-num {
+  font-family: var(--mono);
+  font-weight: 900;
+  font-size: 24px;
+  color: color-mix(in oklab, var(--text) 85%, var(--accent2));
+}
+.wifi-score-label {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.wifi-meter {
+  position: relative;
+  margin-top: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+
+.wifi-meter-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(0,229,255,0.55), rgba(122,162,255,0.55), rgba(168,255,96,0.45));
+  transition: width 220ms ease;
+}
+
+.wifi-points {
+  position: relative;
+  margin: 12px 0 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.wifi-points li { margin: 6px 0; }
+
+@media (max-width: 980px) {
+  .wifi-cards { grid-template-columns: 1fr; }
+}
+/* Sidebar system menu style */
+.sidebar nav {
+    position: relative;
+  }
+  
+  .nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  
+    padding: 10px 12px 10px 14px;
+    border-radius: 14px;
+  
+    border: 1px solid transparent;
+    color: var(--muted);
+    background: transparent;
+  
+    transition: transform 140ms ease, background 140ms ease, border-color 140ms ease, color 140ms ease;
+  }
+  
+  /* icon capsule */
+  .nav-ico {
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+  
+  /* hover like system menu */
+  .nav-link:hover {
+    transform: translateX(2px);
+    color: var(--text);
+    border-color: var(--border2);
+    background: rgba(255,255,255,0.04);
+  }
+  
+  /* left glowing indicator bar */
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 10px;
+    bottom: 10px;
+    width: 3px;
+    border-radius: 999px;
+    background: transparent;
+    opacity: 0;
+    transition: opacity 140ms ease, background 140ms ease;
+  }
+  
+  /* ACTIVE state */
+  .nav-link.is-active {
+    color: var(--text);
+    border-color: color-mix(in oklab, var(--border2) 60%, var(--accent2));
+    background:
+      radial-gradient(600px 140px at 0% 50%, rgba(0,229,255,0.16), transparent 55%),
+      rgba(255,255,255,0.04);
+    box-shadow: 0 0 0 3px rgba(0,229,255,0.06);
+  }
+  
+  .nav-link.is-active::before {
+    opacity: 1;
+    background: linear-gradient(180deg, rgba(0,229,255,0.9), rgba(122,162,255,0.9));
+    box-shadow: 0 0 14px rgba(0,229,255,0.35);
+  }
+  
+  .nav-link.is-active .nav-ico {
+    border-color: color-mix(in oklab, var(--border2) 60%, var(--accent2));
+    background: rgba(0,229,255,0.08);
+  }
+  /* Make intro a real anchor target */
+#intro {
+    scroll-margin-top: 120px; /* 比 topbar 高一點 */
+    min-height: 60vh;         /* 關鍵：避免被 WAN 蓋過 */
+  }
+  #intro .card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+  
+  #intro .card ul,
+  #intro .pill-row {
+    align-self: end;
+  }
+/* Intro grid: force 2 columns, 50 / 50 */
+#intro .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 關鍵：左右各一半 */
+    gap: 16px;
+    align-items: start;
+  }
+/* Intro grid - mobile layout */
+@media (max-width: 768px) {
+    #intro .grid {
+      grid-template-columns: 1fr;   /* 直向排列 */
+      gap: 12px;                    /* 手機間距稍微小一點 */
+    }
+  
+    #intro .card {
+      padding: 14px;                /* 手機好點擊 */
+    }
+  
+    /* 互動小工具的按鈕，在手機上撐滿 */
+    #intro .pill-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+  
+    #intro .pill {
+      width: 100%;
+      justify-content: center;
+      padding: 12px;
+      font-size: 14px;
+    }
+  }
+/* Ensure FAQ has enough height for observer */
+#faq {
+    min-height: 60vh;     /* 關鍵 */
+    scroll-margin-top: 120px;
+  }
+  #faq h3 + * {
+    margin-top: 16px;
+  }
+/* Sliding nav indicator */
+.nav-menu {
+    position: relative;
+  }
+  
+  .nav-indicator {
+    position: absolute;
+    left: 6px;
+    width: 3px;
+    height: 32px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(0,229,255,0.9), rgba(122,162,255,0.9));
+    box-shadow: 0 0 14px rgba(0,229,255,0.45);
+    transition: transform 220ms cubic-bezier(.4,0,.2,1), height 220ms cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+/* ===== Sidebar sliding indicator (FINAL) ===== */
+.nav-menu {
+    position: relative;
+  }
+  
+  .nav-indicator {
+    position: absolute;
+    left: 6px;
+    top: 12px;                 /* ✅ 關鍵：給初始位置 */
+    width: 3px;
+    height: 32px;
+    border-radius: 999px;
+    z-index: 10;               /* ✅ 關鍵：一定在最上層 */
+    pointer-events: none;
+  
+    background: linear-gradient(
+      180deg,
+      rgba(0,229,255,0.95),
+      rgba(122,162,255,0.95)
+    );
+    box-shadow: 0 0 14px rgba(0,229,255,0.45);
+  
+    transition:
+      transform 220ms cubic-bezier(.4,0,.2,1),
+      height 220ms cubic-bezier(.4,0,.2,1);
+  }
+  
+  /* 如果你之前有 nav-link::before，請關掉 */
+  .nav-link::before {
+    display: none;
+  }
+  /* 讓點擊滾動是平滑的 */
+html {
+    scroll-behavior: smooth;
+  }
+  
+  /* 右側指示燈容器 */
+  .dots {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+  }
+  
+  /* 每顆點 */
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #bdbdbd;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  /* 目前章節亮起 */
+  .dot.active {
+    background: #2563eb;
+    transform: scale(1.5);
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.15);
+  }
+  
+  /* 可選：滑過更有手感 */
+  .dot:hover {
+    transform: scale(1.3);
+  }
+  /* WiFi 區塊允許內容長高，不要裁切卡片 */
+#wifi.section {
+    overflow: visible;
+  }
+  .wifi-card[data-tech="6"] {
+    opacity: 0.92;
+  }
+  
+  .wifi-card[data-tech="6"] .wifi-badge {
+    background: rgba(255,255,255,0.02);
+    border-style: dashed;
+  }
+  /* Router upgrade section helpers */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 900px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+.table-wrap {
+  overflow: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 12px 12px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  vertical-align: top;
+}
+
+.compare-table thead th {
+  position: sticky;
+  top: 0;
+  background: rgba(0,0,0,.25);
+  backdrop-filter: blur(8px);
+  z-index: 1;
+}
+
+.compare-table tbody th {
+  text-align: left;
+  white-space: nowrap;
+  background: rgba(0,0,0,.12);
+}
+
+.muted {
+  opacity: .8;
+}
+
+.bullets {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 10px;
+}
+
+.stack {
+  display: grid;
+  gap: 10px;
+}
+
+.pill {
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(0,0,0,.10);
+}
+
+.quote {
+  margin-top: 12px;
+  border-left: 3px solid rgba(255,255,255,.35);
+  padding-left: 12px;
+  opacity: .95;
+}
+
+.mini {
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(0,0,0,.10);
+}
+/* Router intro CTA */
+.cta-group{
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  box-shadow: var(--shadow2);
+}
+
+.cta-lead{
+  margin: 0 0 10px 0;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cta-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* optional: Wi-Fi 8 低調提示 */
+.btn.future::after{
+  content: "Coming";
+  margin-left: 6px;
+  font-size: 11px;
+  opacity: 0.75;
+}
+/* WiFi card subtitle */
+.wifi-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: color-mix(in oklab, var(--text) 65%, var(--accent2));
+  opacity: 0.95;
+}
+/* CTA jump highlight: 整張卡片 + 副標明顯發光 */
+.wifi-card.is-jump-highlight {
+  overflow: visible; /* 讓外層光暈不被裁切 */
+  animation: wifiCardHighlight 1.4s ease-out 1;
+}
+
+.wifi-card.is-jump-highlight .wifi-sub {
+  animation: wifiSubGlow 1.4s ease-out 1;
+}
+
+@keyframes wifiCardHighlight {
+  0% {
+    box-shadow: 0 0 0 0 transparent;
+    border-color: var(--border);
+  }
+  25% {
+    box-shadow:
+      0 0 0 4px rgba(0,229,255,0.5),
+      0 0 28px rgba(0,229,255,0.35),
+      0 0 48px rgba(122,162,255,0.2);
+    border-color: rgba(0,229,255,0.7);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(0,229,255,0.5),
+      0 0 28px rgba(0,229,255,0.35),
+      0 0 48px rgba(122,162,255,0.2);
+    border-color: rgba(0,229,255,0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+    border-color: var(--border);
+  }
+}
+
+@keyframes wifiSubGlow {
+  0% {
+    filter: brightness(1);
+    color: color-mix(in oklab, var(--text) 65%, var(--accent2));
+    text-shadow: none;
+  }
+  25% {
+    filter: brightness(1.5);
+    color: var(--accent2);
+    text-shadow:
+      0 0 12px rgba(0,229,255,0.7),
+      0 0 24px rgba(122,162,255,0.5),
+      0 0 36px rgba(0,229,255,0.35);
+  }
+  50% {
+    filter: brightness(1.5);
+    color: var(--accent2);
+    text-shadow:
+      0 0 12px rgba(0,229,255,0.7),
+      0 0 24px rgba(122,162,255,0.5),
+      0 0 36px rgba(0,229,255,0.35);
+  }
+  100% {
+    filter: brightness(1);
+    color: color-mix(in oklab, var(--text) 65%, var(--accent2));
+    text-shadow: none;
+  }
+}
+/* FAQ group spacing */
+#faq h3 {
+  margin-top: 32px;   /* 關鍵：拉開與上一題的距離 */
+  margin-bottom: 12px;
+}
+#faq h3 {
+  margin-top: 36px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+/* Soft secondary card (搭配情境解析) */
+.card-soft {
+  background: rgba(255,255,255,0.025);
+  border-style: dashed;
+  opacity: 0.92;
+}
+
+.card-soft h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.card-soft .pill {
+  padding: 10px 12px;
+}
+
+.card-soft .muted {
+  font-size: 13px;
+  line-height: 1.6;
+}
+/* grid-2：如果只剩一張卡，讓它跨滿兩欄（避免右邊空白） */
+@media (min-width: 900px) {
+  .grid-2 > :only-child {
+    grid-column: 1 / -1;
+  }
+}
+/* Intro：左右卡片同高、排版更平衡 */
+#intro .grid {
+  grid-auto-rows: 1fr;   /* 讓同一列的 grid item 以 1fr 拉齊高度 */
+  align-items: stretch;
+}
+
+#intro .grid > .card {
+  height: 100%;          /* 卡片撐滿該列高度 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 讓右邊「互動小工具」內容自然往下排，但不會擠在一起 */
+#intro .tool-block {
+  margin-top: 12px;
+}
+
+#intro .tool-title {
+  font-weight: 800;
+  margin: 12px 0 8px;
+  color: color-mix(in oklab, var(--text) 85%, var(--accent));
+  font-size: 14px;
+}
+/* Intro - 互動小工具第一組 pill 靠左對齊 */
+#intro .pill-left {
+  justify-content: flex-start;
+  margin-left: -6px; /* 微調，視覺回到與文字同一條線 */
+}
+/* Intro 互動小工具：WAN/LAN/VLAN 那排強制靠左 */
+#intro .pill-row.pill-left{
+  width: 100%;
+  justify-content: flex-start !important; /* 就算被其他規則蓋也拉回來 */
+  align-self: flex-start;                 /* 就算父層 align-items:center 也不會被置中 */
+  margin-left: 0;
+}
+/* Learn list – 美化「你會學到」 */
+.learn-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.learn-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: flex-start;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.learn-item:hover {
+  border-color: color-mix(in oklab, var(--border2) 60%, var(--accent2));
+  background: rgba(255,255,255,0.05);
+}
+
+.learn-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+
+  display: grid;
+  place-items: center;
+
+  font-weight: 900;
+  font-family: var(--mono);
+  font-size: 14px;
+
+  color: color-mix(in oklab, var(--text) 85%, var(--accent2));
+  background: rgba(0,229,255,0.12);
+  border: 1px solid var(--border2);
+}
+
+.learn-item strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.learn-item p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+code, pre, kbd, samp, .tech {
+  font-family: var(--mono);
+}
+.star-1 { color: #FF0000 !important; } /* 紅色 */
+.star-2 { color: #FF6600 !important; } /* 橙色 */
+.star-3 { color: #FFCC00 !important; } /* 黃色 */
+.star-4 { color: #00CC66 !important; } /* 綠色 */
+.star-5 { color: #0066FF !important; } /* 藍色 */
+/* ================================
+   FIX: 右側整片看不到（layout 溢位被 body hidden 裁掉）
+   貼在 style.css 最下面
+================================ */
+
+/* 1) 讓 layout 的第二欄可以「真的縮小」避免把右邊擠出畫面 */
+.layout{
+  grid-template-columns: clamp(240px, 26vw, 300px) minmax(0, 1fr);
+  width: 100%;
+}
+
+/* 2) Grid item 預設 min-width:auto 會撐爆，強制允許縮小 */
+.sidebar,
+.content,
+.section,
+.card,
+.grid,
+.table-wrap,
+.compare-table,
+#intro .grid > .card{
+  min-width: 0;
+}
+
+/* 3) 你有很多 table/min-width，讓內容自己在表格內捲動，不要把整頁撐爆 */
+.table-wrap{
+  max-width: 100%;
+}
+
+/* 4) 提早在「臨界寬度」切單欄，避免兩欄硬塞 */
+@media (max-width: 1100px){
+  .layout{
+    grid-template-columns: 1fr;
+  }
+  .sidebar{
+    position: relative;
+    top: 0;
+    height: auto;
+  }
+}
+
+/* 5) 可選：如果你希望永遠不要有水平捲軸，就保留 hidden；
+      但搭配上面修正後，正常不該再把右側裁掉 */
+body{
+  overflow-x: hidden;
+}
+/* 所有圖片自動縮放，不超出容器 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+/* =========================
+   Spacing System Refinement
+   ========================= */
+
+/* Section 與 section 之間 */
+.section {
+  margin-bottom: 28px;   /* 原本 16px → 拉開層級 */
+  padding: 22px 24px;    /* 讓內容更有呼吸 */
+}
+
+/* Section 標題下方空間 */
+.section > h1,
+.section > h2 {
+  margin-bottom: 16px;
+}
+
+/* Card 間距統一 */
+.card {
+  padding: 18px;
+  border-radius: 20px;
+}
+
+/* grid 卡片間距微調 */
+.grid {
+  gap: 18px;  /* 原本 12px → 更舒服 */
+}
+
+/* grid-2 / grid-3 間距一致 */
+.grid-2,
+.grid-3 {
+  gap: 18px;
+}
+
+/* 卡片內段落間距優化 */
+.card p {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+/* 卡片內標題 */
+.card h3 {
+  margin-bottom: 12px;
+}
+
+/* CTA 區塊呼吸 */
+.cta-group {
+  margin-top: 20px;
+}
+
+/* details 展開後距離 */
+.details {
+  margin-top: 14px;
+}
+
+/* 表格區塊與上方內容距離 */
+.table-wrap {
+  margin-top: 16px;
+}
+.section {
+  transition: transform 180ms ease;
+}
+
+.section:hover {
+  transform: translateY(-2px);
+}
+/* =========================================================
+   Product-style Visual Hierarchy (Drop-in Overrides)
+   貼在 style.css 最下面，統一整頁層級：標題/段落/卡片/間距
+   ========================================================= */
+
+/* 1) Design Tokens: spacing + type scale */
+:root{
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+
+  --h1: 32px;
+  --h2: 22px;
+  --h3: 16px;
+  --p: 16px;
+  --small: 14px;
+}
+
+/* 2) Page width & layout breathing */
+.layout{
+  max-width: 1280px;            /* 原 1220 → 官網感更穩 */
+  gap: var(--space-5);          /* 主欄位距離 */
+  padding: var(--space-5);
+}
+
+.content{ padding: 0; }         /* 讓 section 自己掌控節奏 */
+
+/* 3) Section = 第一層容器（大呼吸） */
+.section{
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  border-radius: calc(var(--radius) + 2px);
+
+  /* 更像產品官網的 surface：邊框更乾淨、陰影更柔 */
+  border: 1px solid color-mix(in oklab, var(--border) 85%, transparent);
+  box-shadow: 0 18px 60px rgba(0,0,0,.26);
+}
+
+/* 防止霓虹掃光線太搶戲：保留但收斂 */
+.section::before,
+.sidebar::before{
+  opacity: .55;
+}
+
+/* 4) Typography hierarchy */
+h1{
+  font-size: var(--h1);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-3);
+}
+
+h2{
+  font-size: var(--h2);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-3);
+}
+
+h3{
+  font-size: var(--h3);
+  line-height: 1.35;
+  margin-bottom: var(--space-2);
+}
+
+p{
+  font-size: var(--p);
+  margin: var(--space-2) 0;
+}
+
+/* muted = 第二層文字（更像官網的輔助資訊） */
+.muted{
+  font-size: var(--small);
+  line-height: 1.65;
+  opacity: .86;
+}
+
+/* 5) Card = 第二層容器（中呼吸） */
+.card{
+  padding: var(--space-5);
+  border-radius: calc(var(--radius) + 2px);
+  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+
+  /* 官網常見：卡片比 section 更乾淨，少一點霓虹 */
+  background: color-mix(in oklab, rgba(255,255,255,0.035) 70%, transparent);
+  box-shadow: 0 10px 34px rgba(0,0,0,.22);
+}
+
+/* 卡片標題與內容距離 */
+.card > h3{
+  margin-bottom: var(--space-3);
+}
+.card p:last-child{
+  margin-bottom: 0;
+}
+
+/* 6) Grid spacing: 讓卡片間距更像產品頁 */
+.grid{ gap: var(--space-5); }
+.grid-2, .grid-3{ gap: var(--space-5); }
+
+/* 7) Details = 第三層容器（小呼吸 + 清楚可點） */
+.details{
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.028);
+}
+
+.details > summary{
+  padding: 2px 0;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.details > summary + *{
+  margin-top: var(--space-3);
+}
+
+/* 8) Table area: 讓表格更像產品比較表 */
+.table-wrap{
+  margin-top: var(--space-4);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.02);
+}
+
+.compare-table th,
+.compare-table td{
+  padding: 16px 16px;
+}
+
+.compare-table thead th{
+  background: color-mix(in oklab, var(--panel2) 70%, transparent);
+}
+
+.compare-table tbody tr:hover{
+  background: rgba(255,255,255,0.035);
+}
+
+/* 9) Sidebar: 官網式導航面板（更像 app menu） */
+.sidebar{
+  border-radius: calc(var(--radius) + 2px);
+  padding: var(--space-4);
+  box-shadow: 0 18px 55px rgba(0,0,0,.30);
+}
+
+.sidebar nav{
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+}
+
+/* 10) Buttons: 更一致的官網按鈕節奏 */
+.btn, .pill{
+  border-radius: 14px;
+}
+
+.btn{
+  padding: 10px 14px;
+}
+
+.pill{
+  padding: 10px 14px;
+}
+
+/* 11) Images: 防止圖片撐爆、統一官網式圖片卡 */
+.section img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+/* 12) RWD: 小螢幕呼吸收斂 */
+@media (max-width: 980px){
+  .section{
+    padding: var(--space-5);
+  }
+  .card{
+    padding: var(--space-4);
+  }
+}
+/* ===== Intro: Product-style Hero + consistent spacing ===== */
+#intro.section{
+  overflow: visible; /* 避免光暈/陰影被裁切 */
+}
+
+/* Hero container */
+.hero{
+  margin-bottom: 18px;
+  border-radius: calc(var(--radius) + 4px);
+  border: 1px solid color-mix(in oklab, var(--border2) 70%, transparent);
+  background:
+    radial-gradient(900px 260px at 15% 10%, rgba(0,229,255,0.16), transparent 60%),
+    radial-gradient(900px 260px at 85% 20%, rgba(122,162,255,0.18), transparent 60%),
+    rgba(255,255,255,0.03);
+  box-shadow: var(--shadow2);
+  padding: 18px;
+}
+
+.hero-inner{
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.hero-kicker{
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 80%, var(--accent2));
+  margin-bottom: 8px;
+}
+
+.hero-title{
+  font-size: 26px;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.hero-lead{
+  margin: 0 0 14px 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.hero-actions{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Right panel */
+.hero-panel{
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.14);
+  padding: 14px;
+}
+
+.hero-panel-title{
+  font-weight: 800;
+  font-family: var(--mono);
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  color: color-mix(in oklab, var(--text) 80%, var(--accent2));
+  margin-bottom: 10px;
+}
+
+.hero-bullets{
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.7;
+  display: grid;
+  gap: 8px;
+}
+
+/* Make intro grid feel like a product section */
+#intro > h1{
+  margin-top: 6px;
+}
+
+#intro > p{
+  margin-top: 8px;
+  max-width: 68ch;
+}
+
+/* Your original intro grid: keep 2 columns on desktop, 1 on mobile */
+#intro .grid{
+  margin-top: 14px;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+}
+
+/* Card visual hierarchy统一 */
+#intro .card{
+  background: rgba(255,255,255,0.03);
+  border-color: color-mix(in oklab, var(--border) 80%, transparent);
+}
+
+#intro .card h3{
+  font-size: 16px;
+}
+
+/* Tool blocks spacing */
+#intro .tool-block{
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .hero-inner{
+    grid-template-columns: 1fr;
+  }
+  #intro .grid{
+    grid-template-columns: 1fr;
+  }
+}
+/* ===== Intro heading polish (讓「快速導覽」不突兀) ===== */
+#intro .intro-head{
+  margin-bottom: 14px;
+}
+
+#intro .intro-kicker{
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 80%, var(--accent2));
+  margin-bottom: 10px;
+}
+
+#intro .intro-title{
+  font-size: 26px;         /* 比原本 h1 小一點，避免搶戲 */
+  font-weight: 850;
+  letter-spacing: var(--ls-tight);
+  margin: 0 0 8px 0;
+}
+
+#intro .intro-lead{
+  margin: 0;
+  color: var(--muted);
+  max-width: 70ch;         /* 讀起來更像官網文案 */
+}
+
+#intro .intro-divider{
+  height: 1px;
+  margin: 16px 0 18px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(160,180,255,0.18),
+    transparent
+  );
+}
