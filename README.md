@@ -135,7 +135,7 @@ Open `index.html` directly in your browser.
 4. Branch: `main`  
 5. Folder: `/root`  
 
-Your site will be available at:https://github.com/Icytrid/networking-static-site.git
+Your site will be available at:
 
 ---
 
