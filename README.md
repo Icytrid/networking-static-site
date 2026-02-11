@@ -1,71 +1,79 @@
-# 📡 Networking Architecture & Wi-Fi Evolution Demo
+# 📡 Networking Architecture & Wi-Fi Evolution  
+### A Product Thinking Demonstration
 
-A structured static website explaining networking architecture and wireless evolution from a system design perspective.
+This project is a structured static website that explains networking architecture and wireless evolution through a product management perspective.
 
-This project covers:
+Instead of focusing only on technical definitions, it explores:
 
-- WAN / LAN / VLAN architecture fundamentals  
-- VLAN segmentation logic (Access / Trunk / 802.1Q Tagging)  
-- Router role in traffic control and stability  
-- Wi-Fi 6 / 6E / 7 / 8 positioning  
-- Router × Wi-Fi generation pairing strategy  
-
-Built with pure HTML / CSS / Vanilla JavaScript.
+- How infrastructure decisions affect user experience  
+- How capability ceilings interact with device ecosystems  
+- How upgrade strategies should be evaluated  
+- How system layers influence real-world performance  
 
 ---
 
-## 🎯 Project Purpose
+## 🎯 Product Perspective
 
-This project was created to:
+Networking products are often misunderstood as “speed upgrades.”
 
-- Clarify networking fundamentals through layered architecture  
-- Connect infrastructure concepts to real-world experience  
-- Demonstrate structured system thinking  
-- Translate technical logic into product-level decision frameworks  
+This project reframes networking through a decision model:
 
-Instead of listing definitions, the site builds concepts in deployment order.
+- Architecture defines constraints  
+- Router defines traffic behavior  
+- Wi-Fi generation defines theoretical ceiling  
+- Device ecosystem defines realized performance  
+- Environment defines stability  
+
+The objective is not to chase peak specifications, but to optimize actual user experience.
 
 ---
 
-## 🧠 Architecture Flow
+## 🧠 Structured Architecture Logic
+
+The site builds concepts in real deployment order:
 
 WAN → LAN → VLAN → Router → Wi-Fi Generation → Upgrade Strategy
 
-This mirrors real-world network design progression:
+Why this order?
 
-1. WAN connects locations  
-2. LAN builds local network environment  
-3. VLAN segments traffic logically  
-4. Router manages routing and policies  
-5. Wi-Fi generation defines performance ceiling  
-6. Device × Router pairing determines actual experience  
+Because it mirrors real infrastructure layering:
 
-The structure intentionally follows how networks are actually designed and deployed.
+1. WAN – external connectivity scope  
+2. LAN – internal environment construction  
+3. VLAN – logical segmentation for isolation and security  
+4. Router – policy control, scheduling, congestion management  
+5. Wi-Fi generation – capability ceiling  
+6. Device × Router pairing – real experience outcome  
+
+This sequence demonstrates system dependency and upgrade leverage points.
 
 ---
 
-## 🧩 Core Sections
+## 🧩 Core Modules & PM Insights
 
 ### 1️⃣ WAN / LAN / VLAN
 
-- Clear scope distinction  
-- Visual diagrams for each layer  
-- Logical transition between network levels  
-- Practical enterprise & home use cases  
+- Clear scope separation  
+- Visualized logical vs physical segmentation  
+- Home and enterprise examples  
+
+PM Insight:  
+Clear scope modeling prevents feature misinterpretation and deployment errors.
 
 ---
 
-### 2️⃣ VLAN Segmentation Deep Dive
+### 2️⃣ VLAN Segmentation & 802.1Q
 
 Explains:
 
 - Why segmentation is necessary  
 - Multi-switch topology challenges  
 - Access vs Trunk ports  
-- 802.1Q tagging mechanism  
-- VLAN ID examples (10 / 20 / 30)
+- 802.1Q tagging logic  
+- VLAN ID mapping examples (10 / 20 / 30)
 
-Includes simplified topology visualization.
+PM Insight:  
+Segmentation is a product-level scalability and security enabler, not just configuration detail.
 
 ---
 
@@ -73,10 +81,13 @@ Includes simplified topology visualization.
 
 Highlights:
 
-- Multi-device scheduling  
+- Multi-device scheduling impact  
 - Stability vs bandwidth misconception  
-- Latency control importance  
-- Why router upgrades often improve experience more than ISP speed upgrades  
+- Latency consistency importance  
+- Congestion control behavior  
+
+PM Insight:  
+User complaints about “slow internet” often stem from scheduling inefficiencies rather than ISP bandwidth limits.
 
 ---
 
@@ -89,71 +100,68 @@ Interactive comparison across:
 - Reliability  
 - Interference handling  
 
-Dynamic scoring implemented in Vanilla JavaScript.
+PM Insight:  
+Wi-Fi generation positioning must align with device ecosystem maturity, not marketing peak speeds.
 
 ---
 
-### 5️⃣ Router × Wi-Fi Pairing Matrix
+### 5️⃣ Router × Device Pairing Matrix
 
 Demonstrates performance ceiling logic:
 
-Device Capability × Router Capability = Actual Experience
+Actual Experience = min(Device Capability, Router Capability)
 
 Clarifies:
 
-- Why Wi-Fi 7 router ≠ automatic 5-star outcome  
-- Why older devices gain stability but not peak throughput  
-- Where diminishing returns appear  
+- Why upgrading to Wi-Fi 7 does not guarantee maximum performance  
+- Why legacy devices gain stability but not peak throughput  
+- Where diminishing returns appear in upgrade strategy  
+
+PM Insight:  
+Upgrade timing should follow installed base readiness, not just specification availability.
 
 ---
 
-## ⚙️ Tech Stack
+## ⚙️ Implementation
 
 - HTML5  
-- CSS3 (custom theme system + light/dark mode)  
+- CSS3 (custom theme with light/dark mode)  
 - Vanilla JavaScript  
-- IntersectionObserver (sidebar active tracking)  
+- IntersectionObserver (navigation awareness)  
 - Fully static architecture  
 
-No framework used intentionally for clarity and portability.
+No framework used intentionally to maintain clarity and portability.
 
 ---
 
-## 🚀 Local Preview
+## 🌍 Live Demo
 
-Open `index.html` directly in your browser.
-
----
-
-## 🌍 Deployment
-
-### GitHub Pages
-
-1. Push project to GitHub  
-2. Go to Settings → Pages  
-3. Source: Deploy from branch  
-4. Branch: `main`  
-5. Folder: `/root`  
-
-Your site will be available at:https://icytrid.github.io/networking-static-site/
+https://icytrid.github.io/networking-static-site/
 
 ---
 
-## 🔮 Future Enhancements
+## 🧪 Local Preview
 
-- Add L2 vs L3 switching explanation  
-- Add packet flow animation  
-- Add QoS visual demonstration  
-- Add Core / Distribution / Access architecture model  
-- Add real throughput vs theoretical comparison  
-- Add enterprise topology case study  
+Open index.html directly in your browser.
+
+---
+
+## 🔮 Product Roadmap Ideas
+
+- L2 vs L3 switching impact model  
+- QoS visual simulation  
+- Packet flow animation  
+- Enterprise topology case study  
+- Real vs theoretical throughput comparison  
+- Latency consistency visualization  
 
 ---
 
 ## 👤 Author
 
 Networking-focused Software PM candidate  
-Interested in routing logic, segmentation design, and wireless evolution strategy.
+Interested in routing logic, segmentation strategy, and wireless evolution positioning.
+
 
 
 
